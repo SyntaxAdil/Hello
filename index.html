@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>হিসাবগুরু । চল হিসাব করে চলি, ভবিষৎ গড়ি</title>
+    <!-- Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <!-- Favicon link -->
+    <link rel="shortcut icon" href="/Image resource/Hisabguru.png" type="image/x-icon">
+    <!-- FontAwesome Icon link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f4f8; /* Light background color */
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .main-box {
+            min-height: 600px;
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin: 30px auto;
+        }
+
+        .main-logo {
+            height: 170px;
+            width: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .card {
+            margin: 10px 0;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .card-header {
+            background-color: #4682b4;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 15px 15px 0 0;
+            padding-top: 25px;
+        }
+
+        .card-body p {
+            font-size: larger;
+            margin: 5px 0;
+        }
+
+        .positive {
+            color: green;
+            font-size: 24px;
+        }
+
+        .negative {
+            color: red;
+            font-size: 24px;
+        }
+
+        .balance {
+            color: #b8860b;
+            font-size: 24px;
+        }
+
+        .history-box {
+            margin-top: 30px;
+            border-radius: 15px;
+            padding: 20px;
+            background-color: #e0f7fa;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item.green {
+            background-color: #d4edda;
+        }
+
+        .history-item.red {
+            background-color: #f8d7da;
+        }
+
+        .history-item p {
+            margin: 0;
+        }
+
+        .history-item .cross-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .history-item .date-time {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .input-fields input {
+            margin: 5px 0;
+        }
+
+        .btn-primary, .btn-danger {
+            border-radius: 20px;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #4caf50;
+            border: none;
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+            border: none;
+        }
+
+        .clear-history-btn {
+            background-color: rgb(70, 130, 180);
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main section -->
+    <section class="main-box">
+        <div class="container">
+            <div class="row d-flex justify-content-center align-items-center">
+                <img src="/Image resource/Hisabguru.png" class="main-logo" alt="Logo">
+            </div>
+
+            <!-- Income and Expense Section -->
+            <section class="data-showcase">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <p>এই মাসের আয়</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="positive" id="income">50000 BDT</p>
+                                <div class="input-fields">
+                                    <button class="btn btn-primary w-100 mt-4" data-bs-toggle="modal" data-bs-target="#incomeModal">
+                                        <i class="fas fa-plus"></i> আয় যোগ করুন
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <p>এই মাসের ব্যয়</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="negative" id="expense">500 BDT</p>
+                                <div class="input-fields">
+                                    <button class="btn btn-danger w-100 mt-4" data-bs-toggle="modal" data-bs-target="#expenseModal">
+                                        <i class="fas fa-minus"></i> ব্যয় যোগ করুন
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Balance Section -->
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <p>এই মাসের ব্যলেন্স</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="balance" id="balance">55510 BDT</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <p>গত মাসের ব্যলেন্স</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="balance" id="last-month-balance">0.0 BDT</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transaction History -->
+            <div class="history-box">
+                <h4>আয়-ব্যায় হিস্টোরি</h4>
+                <div id="history-list">
+                    <!-- Transaction history items will be added here -->
+                </div>
+                <button class="clear-history-btn mt-3" onclick="clearHistory()">হিস্টোরি পরিষ্কার করুন</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Adding Income -->
+    <div class="modal fade" id="incomeModal" tabindex="-1" aria-labelledby="incomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="incomeModalLabel">আয় যোগ করুন</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="number" class="form-control" id="income-input" placeholder="আয়ের পরিমাণ লিখুন">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">বন্ধ করুন</button>
+                    <button type="button" class="btn btn-primary" onclick="addIncome()">জমা দিন</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Adding Expense -->
+    <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="expenseModalLabel">ব্যয় যোগ করুন</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="number" class="form-control" id="expense-input" placeholder="ব্যয়ের পরিমাণ লিখুন">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">বন্ধ করুন</button>
+                    <button type="button" class="btn btn-danger" onclick="addExpense()">জমা দিন</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to add income
+        function addIncome() {
+            let income = parseInt(document.getElementById("income-input").value);
+            if (income > 0) {
+                document.getElementById("income").innerText = income + " BDT";
+                updateBalance();
+                addHistory('income', income);
+                $('#incomeModal').modal('hide');
+            } else {
+                alert("দয়া করে একটি সঠিক আয় পরিমাণ দিন।");
+            }
+        }
+
+        // Function to add expense
+        function addExpense() {
+            let expense = parseInt(document.getElementById("expense-input").value);
+            if (expense > 0) {
+                document.getElementById("expense").innerText = expense + " BDT";
+                updateBalance();
+                addHistory('expense', expense);
+                $('#expenseModal').modal('hide');
+            } else {
+                alert("দয়া করে একটি সঠিক ব্যয় পরিমাণ দিন।");
+            }
+        }
+
+        // Function to update balance
+        function updateBalance() {
+            let income = parseInt(document.getElementById("income").innerText);
+            let expense = parseInt(document.getElementById("expense").innerText);
+            let balance = income - expense;
+            document.getElementById("balance").innerText = balance + " BDT";
+        }
+
+        // Function to add transaction to history
+        function addHistory(type, amount) {
+            let historyList = document.getElementById("history-list");
+            let historyItem = document.createElement("div");
+            historyItem.classList.add("history-item");
+
+            let date = new Date();
+            let dateString = date.toLocaleString();
+
+            if (type === 'income') {
+                historyItem.classList.add("green");
+                historyItem.innerHTML = `
+                    <div>
+                        <p><strong>আয়:</strong> +${amount} BDT</p>
+                        <p class="date-time">${dateString}</p>
+                    </div>
+                    <i class="fas fa-times cross-icon" onclick="removeHistoryItem(this)"></i>
+                `;
+            } else if (type === 'expense') {
+                historyItem.classList.add("red");
+                historyItem.innerHTML = `
+                    <div>
+                        <p><strong>ব্যয়:</strong> -${amount} BDT</p>
+                        <p class="date-time">${dateString}</p>
+                    </div>
+                    <i class="fas fa-times cross-icon" onclick="removeHistoryItem(this)"></i>
+                `;
+            }
+
+            historyList.appendChild(historyItem);
+        }
+
+        // Function to remove history item
+        function removeHistoryItem(element) {
+            element.parentElement.remove();
+        }
+
+        // Function to clear all history
+        function clearHistory() {
+            document.getElementById("history-list").innerHTML = "";
+        }
+    </script>
+</body>
+</html>
